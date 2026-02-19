@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Admin Portal</title>
+  <style>
+    body{font-family:Arial;margin:2rem;background:#f8fafc} h1{margin-bottom:.2rem}
+    .card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:1rem;margin-bottom:1rem}
+    input,button{margin:.2rem;padding:.45rem}.grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    pre{background:#0f172a;color:#e2e8f0;padding:.8rem;border-radius:8px;min-height:120px;overflow:auto}
+  </style>
+</head>
+<body>
+<h1>Admin Portal</h1>
+<p>Features: JWT login, Doctor CRUD, Reports.</p>
+
+<div class="card" id="f-login">
+  <h3>1) Authentication</h3>
+  <input id="email" placeholder="admin@clinic.com" value="admin@clinic.com"/>
+  <input id="password" type="password" placeholder="Admin@123" value="Admin@123"/>
+  <button onclick="login()">Login</button>
+  <button onclick="mockLogin()">Load Example Data</button>
+</div>
+
+<div class="card" id="f-doctor-crud">
+  <h3>2) Admin CRUD Doctors</h3>
+  <div class="grid">
+    <div>
+      <input id="docName" placeholder="Dr Name" value="Dr. Nia Rao"/>
+      <input id="docEmail" placeholder="doctor2@clinic.com" value="doctor2@clinic.com"/>
+      <input id="docPass" type="password" value="Doctor@123"/>
+      <input id="docSpec" placeholder="Specialty" value="Dermatology"/>
+      <button onclick="createDoctor()">Create Doctor</button>
+      <button onclick="updateDoctor()">Update Doctor #2</button>
+      <button onclick="deleteDoctor()">Delete Doctor #2</button>
+      <button onclick="listDoctors()">List Doctors</button>
+      <button onclick="mockDoctors()">Load Example Data</button>
+    </div>
+    <pre id="doctorOut"></pre>
+  </div>
+</div>
+
+<div class="card" id="f-reports-daily">
+  <h3>3) Report: Daily Appointments by Doctor</h3>
+  <input id="doctorIdDaily" value="2"/>
+  <input id="dailyDate" value="2026-02-20"/>
+  <button onclick="dailyReport()">Fetch</button>
+  <button onclick="mockDaily()">Load Example Data</button>
+  <pre id="dailyOut"></pre>
+</div>
+
+<div class="card" id="f-reports-month-year">
+  <h3>4) Reports: Top Doctor by Month / Year</h3>
+  <input id="repYear" value="2026"/>
+  <input id="repMonth" value="2"/>
+  <button onclick="topMonth()">Top by Month</button>
+  <button onclick="topYear()">Top by Year</button>
+  <button onclick="mockTop()">Load Example Data</button>
+  <pre id="topOut"></pre>
+</div>
+
+<pre id="authOut"></pre>
+<script>
+const API='http://localhost:8080/api';
+const H=()=>({'Content-Type':'application/json','Authorization':'Bearer '+(localStorage.token||'')});
+const show=(id,data)=>document.getElementById(id).textContent=JSON.stringify(data,null,2);
+async function req(url,opt={}){const r=await fetch(API+url,opt);return r.json();}
+
+async function login(){show('authOut', await req('/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value,password:password.value})}));if(authOut.textContent.includes('token'))localStorage.token=JSON.parse(authOut.textContent).data.token}
+function mockLogin(){show('authOut',{success:true,message:'Login successful',data:{token:'<jwt-admin>',role:'ADMIN',userId:1,fullName:'System Admin'}})}
+
+async function createDoctor(){show('doctorOut',await req('/admin/doctors',{method:'POST',headers:H(),body:JSON.stringify({fullName:docName.value,email:docEmail.value,password:docPass.value,specialty:docSpec.value})}))}
+async function updateDoctor(){show('doctorOut',await req('/admin/doctors/2',{method:'PUT',headers:H(),body:JSON.stringify({fullName:docName.value,email:docEmail.value,password:docPass.value,specialty:docSpec.value})}))}
+async function deleteDoctor(){show('doctorOut',await req('/admin/doctors/2',{method:'DELETE',headers:H()}))}
+async function listDoctors(){show('doctorOut',await req('/admin/doctors',{headers:H()}))}
+function mockDoctors(){show('doctorOut',{success:true,message:'Doctors fetched',data:[{id:2,fullName:'Dr. Aisha Patel',email:'doctor@clinic.com',specialty:'Cardiology'},{id:4,fullName:'Dr. Nia Rao',email:'doctor2@clinic.com',specialty:'Dermatology'}]})}
+
+async function dailyReport(){show('dailyOut',await req(`/reports/daily-appointments?doctorId=${doctorIdDaily.value}&date=${dailyDate.value}`,{headers:H()}))}
+function mockDaily(){show('dailyOut',{success:true,message:'Daily report fetched',data:[{doctorId:2,date:'2026-02-20',totalAppointments:5}]})}
+
+async function topMonth(){show('topOut',await req(`/reports/top-doctor/month?year=${repYear.value}&month=${repMonth.value}`,{headers:H()}))}
+async function topYear(){show('topOut',await req(`/reports/top-doctor/year?year=${repYear.value}`,{headers:H()}))}
+function mockTop(){show('topOut',{success:true,message:'Top reports',data:{month:[{doctorId:2,doctorName:'Dr. Aisha Patel',totalPatients:21}],year:[{doctorId:2,doctorName:'Dr. Aisha Patel',totalPatients:198}]}})}
+</script>
+</body></html>
