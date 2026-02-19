@@ -11,11 +11,28 @@ A modular-monolith Spring Boot clinic system with role-based portals for Admin, 
 - Report endpoints backed by MySQL stored procedures
 - Docker Compose and GitHub Actions CI
 
+### Screenshots (max 5)
+
+1. Admin full-page flow (auth, doctor CRUD, reports)
+![Admin full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/admin-full.png)
+
+2. Doctor full-page flow (auth, availability, appointments, prescriptions)
+![Doctor full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/doctor-full.png)
+
+3. Patient full-page flow (auth, search, availability, booking, history)
+![Patient full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/patient-full.png)
+
+4. Admin report output focus
+![Admin report output](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/admin-report-output.png)
+
+5. Patient booking output focus
+![Patient booking output](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/patient-booking-output.png)
+
 ## Tech Stack
 - Java 17, Spring Boot 3
 - Spring Security, Spring Data JPA, Validation
 - MySQL 8
-- Plain HTML/CSS/JS frontends (3 simple portals)
+- Plain HTML/CSS/JS frontend
 
 ## Quick Start
 ### With Docker
@@ -60,19 +77,3 @@ Then open each page and click every **Load Example Data** button:
 - `http://localhost:4173/frontend/doctor/index.html`
 - `http://localhost:4173/frontend/patient/index.html`
 
-### Screenshots (max 5)
-
-1. Admin full-page flow (auth, doctor CRUD, reports)
-![Admin full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/admin-full.png)
-
-2. Doctor full-page flow (auth, availability, appointments, prescriptions)
-![Doctor full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/doctor-full.png)
-
-3. Patient full-page flow (auth, search, availability, booking, history)
-![Patient full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/patient-full.png)
-
-4. Admin report output focus
-![Admin report output](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/admin-report-output.png)
-
-5. Patient booking output focus
-![Patient booking output](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/patient-booking-output.png)
