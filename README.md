@@ -1,6 +1,6 @@
 # Clinic Management System
 
-A modular-monolith Spring Boot clinic system with role-based portals for Admin, Doctor, and Patient.
+A Spring Boot clinic system with role-based portals for Admin, Doctor, and Patient.
 
 ## Features
 - JWT authentication and role-based authorization
@@ -11,22 +11,30 @@ A modular-monolith Spring Boot clinic system with role-based portals for Admin, 
 - Report endpoints backed by MySQL stored procedures
 - Docker Compose and GitHub Actions CI
 
-### Screenshots (max 5)
+### Screenshots of Features
 
 1. Admin full-page flow (auth, doctor CRUD, reports)
-![Admin full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/admin-full.png)
+<img width="1440" height="1800" alt="image" src="https://github.com/user-attachments/assets/28d791f2-518c-4b2c-8699-2f91c503e6ee" />
+<img width="1440" height="1800" alt="image" src="https://github.com/user-attachments/assets/28d791f2-518c-4b2c-8699-2f91c503e6ee" />
 
-2. Doctor full-page flow (auth, availability, appointments, prescriptions)
-![Doctor full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/doctor-full.png)
 
-3. Patient full-page flow (auth, search, availability, booking, history)
-![Patient full page](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/patient-full.png)
+2. Doctor portal (full page)
+<img width="1440" height="2238" alt="image" src="https://github.com/user-attachments/assets/b75d53b8-bd01-4ee3-b0b2-788d2ab63bff" />
+<img width="1440" height="2238" alt="image" src="https://github.com/user-attachments/assets/b75d53b8-bd01-4ee3-b0b2-788d2ab63bff" />
 
-4. Admin report output focus
-![Admin report output](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/admin-report-output.png)
 
-5. Patient booking output focus
-![Patient booking output](browser:/tmp/codex_browser_invocations/29d5174ef281ad88/artifacts/docs/screenshots/patient-booking-output.png)
+3. Patient portal 
+<img width="1440" height="2470" alt="image" src="https://github.com/user-attachments/assets/aab19f2a-5ab0-4def-9eb4-208f7b542388" />
+<img width="1440" height="2470" alt="image" src="https://github.com/user-attachments/assets/aab19f2a-5ab0-4def-9eb4-208f7b542388" />
+
+
+4. Admin report output
+<img width="663" height="297" alt="image" src="https://github.com/user-attachments/assets/0fa50263-7656-4722-943f-63ef25a9bfee" />
+<img width="663" height="297" alt="image" src="https://github.com/user-attachments/assets/0fa50263-7656-4722-943f-63ef25a9bfee" />
+
+5. Patient booking output 
+<img width="1342" height="177" alt="image" src="https://github.com/user-attachments/assets/ebcb9620-8f1d-4d2d-9b2e-f124f353acd9" />
+<img width="1342" height="177" alt="image" src="https://github.com/user-attachments/assets/ebcb9620-8f1d-4d2d-9b2e-f124f353acd9" />
 
 ## Tech Stack
 - Java 17, Spring Boot 3
