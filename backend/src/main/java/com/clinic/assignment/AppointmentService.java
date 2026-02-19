@@ -21,6 +21,6 @@ public class AppointmentService {
     public List<Appointment> getAppointmentsForDoctorOnDate(Long doctorId, LocalDate date) {
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.plusDays(1).atStartOfDay();
-        return appointmentRepository.findByDoctorIdAndAppointmentTimeBetween(doctorId, start, end);
+        return appointmentRepository.findByDoctor_IdAndAppointmentTimeBetween(doctorId, start, end);
     }
 }
