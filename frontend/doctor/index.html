@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><title>Doctor Portal</title>
+  <style>body{font-family:Arial;margin:2rem;background:#f8fafc}.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:1rem;margin-bottom:1rem}input,button,textarea{margin:.2rem;padding:.45rem}pre{background:#0f172a;color:#e2e8f0;padding:.8rem;border-radius:8px}</style>
+</head>
+<body>
+<h1>Doctor Portal</h1>
+<p>Features: login, manage availability, view appointments, write/view prescriptions.</p>
+
+<div class="card" id="f-login">
+  <h3>1) Authentication</h3>
+  <input id="email" value="doctor@clinic.com"/><input id="password" type="password" value="Doctor@123"/>
+  <button onclick="login()">Login</button><button onclick="mockLogin()">Load Example Data</button>
+  <pre id="authOut"></pre>
+</div>
+
+<div class="card" id="f-availability">
+  <h3>2) Manage Availability</h3>
+  <input id="doctorId" value="2"/><input id="avDate" value="2026-02-21"/>
+  <input id="slots" value="09:00,09:30,10:00"/>
+  <button onclick="setAvailability()">Set</button><button onclick="getAvailability()">Get</button><button onclick="mockAvailability()">Load Example Data</button>
+  <pre id="avOut"></pre>
+</div>
+
+<div class="card" id="f-appointments">
+  <h3>3) View Appointments by Date</h3>
+  <input id="apDate" value="2026-02-21"/><button onclick="appointments()">Fetch</button><button onclick="mockAppointments()">Load Example Data</button>
+  <pre id="apOut"></pre>
+</div>
+
+<div class="card" id="f-prescriptions-create">
+  <h3>4) Create Prescription</h3>
+  <input id="appointmentId" value="10"/><input id="diag" value="Mild flu"/>
+  <textarea id="med" rows="2">Paracetamol 500mg twice daily for 3 days</textarea>
+  <textarea id="notes" rows="2">Hydrate and rest</textarea>
+  <button onclick="createPrescription()">Create</button><button onclick="mockCreateRx()">Load Example Data</button>
+  <pre id="rxCreateOut"></pre>
+</div>
+
+<div class="card" id="f-prescriptions-view">
+  <h3>5) View Prescriptions for Appointment</h3>
+  <input id="apIdView" value="10"/><button onclick="viewPrescription()">Fetch</button><button onclick="mockViewRx()">Load Example Data</button>
+  <pre id="rxViewOut"></pre>
+</div>
+
+<script>
+const API='http://localhost:8080/api';
+const H=()=>({'Content-Type':'application/json','Authorization':'Bearer '+(localStorage.token||'')});
+const show=(id,data)=>document.getElementById(id).textContent=JSON.stringify(data,null,2);
+async function req(url,opt={}){const r=await fetch(API+url,opt);return r.json();}
+
+async function login(){const data=await req('/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value,password:password.value})});show('authOut',data);if(data?.data?.token)localStorage.token=data.data.token}
+function mockLogin(){show('authOut',{success:true,message:'Login successful',data:{token:'<jwt-doctor>',role:'DOCTOR',userId:2,fullName:'Dr. Aisha Patel'}})}
+
+async function setAvailability(){const slotsArr=slots.value.split(',').map(s=>s.trim());show('avOut',await req(`/doctors/${doctorId.value}/availability`,{method:'PUT',headers:H(),body:JSON.stringify({date:avDate.value,slots:slotsArr})}))}
+async function getAvailability(){show('avOut',await req(`/doctors/${doctorId.value}/availability?date=${avDate.value}`,{headers:H()}))}
+function mockAvailability(){show('avOut',{success:true,message:'Availability fetched',data:{doctorId:2,date:'2026-02-21',slots:['09:00','09:30','10:00']}})}
+
+async function appointments(){show('apOut',await req(`/doctors/${doctorId.value}/appointments?date=${apDate.value}`,{headers:H()}))}
+function mockAppointments(){show('apOut',{success:true,message:'Appointments fetched',data:[{id:10,doctorId:2,patientId:3,date:'2026-02-21',time:'09:00',status:'BOOKED'},{id:11,doctorId:2,patientId:5,date:'2026-02-21',time:'09:30',status:'BOOKED'}]})}
+
+async function createPrescription(){show('rxCreateOut',await req('/prescriptions',{method:'POST',headers:H(),body:JSON.stringify({appointmentId:Number(appointmentId.value),diagnosis:diag.value,medications:med.value,notes:notes.value})}))}
+function mockCreateRx(){show('rxCreateOut',{success:true,message:'Prescription created',data:{id:44,appointmentId:10,doctorId:2,diagnosis:'Mild flu',medications:'Paracetamol 500mg twice daily for 3 days',notes:'Hydrate and rest'}})}
+
+async function viewPrescription(){show('rxViewOut',await req(`/appointments/${apIdView.value}/prescriptions`,{headers:H()}))}
+function mockViewRx(){show('rxViewOut',{success:true,message:'Prescriptions fetched',data:[{id:44,appointmentId:10,doctorId:2,diagnosis:'Mild flu',medications:'Paracetamol 500mg twice daily for 3 days',notes:'Hydrate and rest'}]})}
+</script>
+</body></html>

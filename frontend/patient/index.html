@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><title>Patient Portal</title>
+  <style>body{font-family:Arial;margin:2rem;background:#f8fafc}.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:1rem;margin-bottom:1rem}input,button{margin:.2rem;padding:.45rem}pre{background:#0f172a;color:#e2e8f0;padding:.8rem;border-radius:8px}</style>
+</head>
+<body>
+<h1>Patient Portal</h1>
+<p>Features: register/login, search doctors, availability, booking, appointments, prescriptions.</p>
+
+<div class="card" id="f-auth-register-login">
+  <h3>1) Register + Login</h3>
+  <input id="name" value="Jane Roe"/><input id="email" value="patient@clinic.com"/><input id="password" type="password" value="Patient@123"/>
+  <button onclick="register()">Register</button><button onclick="login()">Login</button><button onclick="mockAuth()">Load Example Data</button>
+  <pre id="authOut"></pre>
+</div>
+
+<div class="card" id="f-search">
+  <h3>2) Search Doctors</h3>
+  <input id="searchName" value="Aisha"/><input id="searchSpec" value="Cardiology"/>
+  <button onclick="searchDoctors()">Search</button><button onclick="mockSearch()">Load Example Data</button>
+  <pre id="searchOut"></pre>
+</div>
+
+<div class="card" id="f-view-availability">
+  <h3>3) View Doctor Availability</h3>
+  <input id="doctorId" value="2"/><input id="avDate" value="2026-02-21"/>
+  <button onclick="availability()">View</button><button onclick="mockAvailability()">Load Example Data</button>
+  <pre id="avOut"></pre>
+</div>
+
+<div class="card" id="f-book-appointment">
+  <h3>4) Book Appointment</h3>
+  <input id="bookDoctorId" value="2"/><input id="bookDate" value="2026-02-21"/><input id="bookTime" value="09:00"/>
+  <button onclick="book()">Book</button><button onclick="mockBook()">Load Example Data</button>
+  <pre id="bookOut"></pre>
+</div>
+
+<div class="card" id="f-my-appointments">
+  <h3>5) My Appointments</h3>
+  <button onclick="myAppointments()">Fetch</button><button onclick="mockMyAppointments()">Load Example Data</button>
+  <pre id="myApOut"></pre>
+</div>
+
+<div class="card" id="f-my-prescriptions">
+  <h3>6) My Prescriptions (by appointment)</h3>
+  <input id="apId" value="10"/><button onclick="myPrescriptions()">Fetch</button><button onclick="mockMyPrescriptions()">Load Example Data</button>
+  <pre id="myRxOut"></pre>
+</div>
+
+<script>
+const API='http://localhost:8080/api';
+const H=()=>({'Content-Type':'application/json','Authorization':'Bearer '+(localStorage.token||'')});
+const show=(id,data)=>document.getElementById(id).textContent=JSON.stringify(data,null,2);
+async function req(url,opt={}){const r=await fetch(API+url,opt);return r.json();}
+
+async function register(){show('authOut',await req('/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fullName:name.value,email:email.value,password:password.value})}))}
+async function login(){const data=await req('/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value,password:password.value})});show('authOut',data);if(data?.data?.token)localStorage.token=data.data.token}
+function mockAuth(){show('authOut',{success:true,message:'Authentication successful',data:{token:'<jwt-patient>',role:'PATIENT',userId:3,fullName:'Jane Roe'}})}
+
+async function searchDoctors(){show('searchOut',await req(`/doctors/search?name=${encodeURIComponent(searchName.value)}&specialty=${encodeURIComponent(searchSpec.value)}`,{headers:H()}))}
+function mockSearch(){show('searchOut',{success:true,message:'Doctors fetched',data:[{id:2,fullName:'Dr. Aisha Patel',email:'doctor@clinic.com',specialty:'Cardiology'}]})}
+
+async function availability(){show('avOut',await req(`/doctors/${doctorId.value}/availability?date=${avDate.value}`,{headers:H()}))}
+function mockAvailability(){show('avOut',{success:true,message:'Availability fetched',data:{doctorId:2,date:'2026-02-21',slots:['09:00','09:30','10:00']}})}
+
+async function book(){show('bookOut',await req('/appointments',{method:'POST',headers:H(),body:JSON.stringify({doctorId:Number(bookDoctorId.value),date:bookDate.value,time:bookTime.value})}))}
+function mockBook(){show('bookOut',{success:true,message:'Appointment booked',data:{id:10,doctorId:2,patientId:3,date:'2026-02-21',time:'09:00',status:'BOOKED'}})}
+
+async function myAppointments(){show('myApOut',await req('/patients/me/appointments',{headers:H()}))}
+function mockMyAppointments(){show('myApOut',{success:true,message:'Appointments fetched',data:[{id:10,doctorId:2,patientId:3,date:'2026-02-21',time:'09:00',status:'BOOKED'}]})}
+
+async function myPrescriptions(){show('myRxOut',await req(`/appointments/${apId.value}/prescriptions`,{headers:H()}))}
+function mockMyPrescriptions(){show('myRxOut',{success:true,message:'Prescriptions fetched',data:[{id:44,appointmentId:10,doctorId:2,diagnosis:'Mild flu',medications:'Paracetamol 500mg twice daily for 3 days',notes:'Hydrate and rest'}]})}
+</script>
+</body></html>
