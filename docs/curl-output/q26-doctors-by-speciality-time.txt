@@ -1,0 +1,2 @@
+$ curl -s "http://localhost:8080/api/doctors/search?specialty=Cardiology&name=" -H "Authorization: Bearer <patient-token>"
+{"success":true,"message":"Doctors fetched","data":[{"id":2,"fullName":"Dr. Aisha Patel","email":"doctor@clinic.com","specialty":"Cardiology"}]}

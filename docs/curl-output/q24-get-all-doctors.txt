@@ -1,0 +1,2 @@
+$ curl -s http://localhost:8080/api/admin/doctors -H "Authorization: Bearer <admin-token>"
+{"success":true,"message":"Doctors fetched","data":[{"id":2,"fullName":"Dr. Aisha Patel","email":"doctor@clinic.com","specialty":"Cardiology"},{"id":4,"fullName":"Dr. Nia Rao","email":"doctor2@clinic.com","specialty":"Dermatology"}]}

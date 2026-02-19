@@ -1,0 +1,10 @@
+mysql> SHOW TABLES;
++------------------------------+
+| Tables_in_clinic_db          |
++------------------------------+
+| appointments                 |
+| doctor_available_times       |
+| prescriptions                |
+| users                        |
++------------------------------+
+4 rows in set (0.00 sec)
