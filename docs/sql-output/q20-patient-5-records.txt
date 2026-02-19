@@ -1,0 +1,11 @@
+mysql> SELECT id, email, full_name, role FROM users WHERE role='PATIENT' LIMIT 5;
++----+--------------------+----------------+---------+
+| id | email              | full_name      | role    |
++----+--------------------+----------------+---------+
+|  3 | patient@clinic.com | John Doe       | PATIENT |
+|  5 | jane@clinic.com    | Jane Roe       | PATIENT |
+|  6 | sam@clinic.com     | Sam Lee        | PATIENT |
+|  7 | ava@clinic.com     | Ava Carter     | PATIENT |
+|  8 | noah@clinic.com    | Noah Wilson    | PATIENT |
++----+--------------------+----------------+---------+
+5 rows in set (0.00 sec)

@@ -1,0 +1,7 @@
+mysql> CALL GetDoctorWithMostPatientsByMonth(2026, 2);
++-----------+-----------------+----------------+
+| doctor_id | doctor_name     | total_patients |
++-----------+-----------------+----------------+
+|         2 | Dr. Aisha Patel |             21 |
++-----------+-----------------+----------------+
+1 row in set (0.00 sec)
