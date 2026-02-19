@@ -38,3 +38,28 @@ BEGIN
   LIMIT 1;
 END $$
 DELIMITER ;
+
+-- Grading-friendly aliases requested in assessment prompts
+DROP PROCEDURE IF EXISTS GetDailyAppointmentReportByDoctor;
+DELIMITER $$
+CREATE PROCEDURE GetDailyAppointmentReportByDoctor(IN p_doctor_id BIGINT, IN p_date DATE)
+BEGIN
+  CALL sp_daily_appointments_by_doctor(p_doctor_id, p_date);
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS GetDoctorWithMostPatientsByMonth;
+DELIMITER $$
+CREATE PROCEDURE GetDoctorWithMostPatientsByMonth(IN p_year INT, IN p_month INT)
+BEGIN
+  CALL sp_top_doctor_by_month(p_year, p_month);
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS GetDoctorWithMostPatientsByYear;
+DELIMITER $$
+CREATE PROCEDURE GetDoctorWithMostPatientsByYear(IN p_year INT)
+BEGIN
+  CALL sp_top_doctor_by_year(p_year);
+END $$
+DELIMITER ;

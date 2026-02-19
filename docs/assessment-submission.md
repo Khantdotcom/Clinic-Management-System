@@ -3,7 +3,7 @@
 > Replace `<YOUR_GITHUB_USERNAME>` and `<BRANCH>` with your actual values to produce publicly accessible GitHub links.
 
 1. **Issues/User Stories link**  
-   https://github.com/<YOUR_GITHUB_USERNAME>/Clinic-Management-System/blob/<BRANCH>/docs/issues-user-stories.md
+   https://github.com/<YOUR_GITHUB_USERNAME>/Clinic-Management-System/issues (see issue content based on `.github/ISSUE_TEMPLATE/user-stories.md`)
 
 2. **schema-design.md link**  
    https://github.com/<YOUR_GITHUB_USERNAME>/Clinic-Management-System/blob/<BRANCH>/docs/schema-design.md

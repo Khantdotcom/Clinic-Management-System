@@ -1,7 +1,7 @@
-# Smart Clinic Management System — User Stories (Issue Content)
-
-This content is also available in the GitHub issue template:
-- `.github/ISSUE_TEMPLATE/user-stories.md`
+---
+name: User Stories
+about: Role-based user stories for Smart Clinic Management System
+---
 
 ## Doctor User Stories
 - **As a Doctor**, I want to securely log in so that I can access only doctor-specific features.
